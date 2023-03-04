@@ -67,6 +67,7 @@ button:hover {
   box-shadow: 0 8px 40px -12px black;
   width: 600px;
   height: 525px;
+  margin-top: 25px;
 }
 .actionContainer {
   padding: 1em;
@@ -75,7 +76,7 @@ button:hover {
 }
 .textContainer {
   padding: 1em;
-
+  overflow-y: auto;
   height: 275px;
   box-shadow: 0 8px 40px -12px black;
 }
@@ -96,4 +97,7 @@ button:hover {
 }
 .divider {
   width: 5px;
+}
+.flexBox {
+  display: flex;
 }
