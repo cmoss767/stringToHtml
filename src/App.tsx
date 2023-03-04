@@ -3,16 +3,25 @@ import "./App.css"
 import ActionBar from "./components/ActionBar"
 
 function App() {
-  const [text, setText] = useState<string | null>()
-  const [html, setHtml] = useState<string | null>()
-  useEffect(() => {
-    let string = ""
-    if (text) {
-      string = "<p>" + text + "</p>"
-    }
+  const [text, setText] = useState<any>()
+  const [html, setHtml] = useState<any>()
+  useEffect(() => {}, [text])
+  const handleInput = (outerHTML: any) => {
+    let string = outerHTML
+      .replace(/(<div)/gim, "<p")
+      .replace(/<\/div>/gim, "</p>")
+    let c = $.parseHTML(string)
+    $(c).removeClass("textContainer")
+    $(c).removeAttr("contenteditable class")
+    const result: string[] = []
+    c.forEach((el: Node) => {
+      const element = el as HTMLElement
+      result.push(element.outerHTML)
+    })
 
-    setHtml(string)
-  }, [text])
+    console.log(c)
+    setHtml(result)
+  }
 
   return (
     <div className="App">
@@ -29,7 +38,11 @@ function App() {
             <div
               className="textContainer"
               contentEditable="true"
-              onInput={(e) => setText(e.currentTarget.textContent)}
+              onInput={(e) => {
+                setText(e.currentTarget)
+
+                handleInput(e.currentTarget.outerHTML)
+              }}
             ></div>
           </div>
         </div>
@@ -39,7 +52,9 @@ function App() {
         <div className="card">
           <div className="centerText">
             <h1>HTML Code</h1>
-            <div>{html}</div>
+            {html?.map((el: string) => {
+              return <div>{el}</div>
+            })}
           </div>
         </div>
       </div>

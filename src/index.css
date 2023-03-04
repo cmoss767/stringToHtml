@@ -79,7 +79,10 @@ button:hover {
   overflow-y: auto;
   height: 275px;
   box-shadow: 0 8px 40px -12px black;
+
+  width: 550px;
 }
+
 [contenteditable]:focus {
   outline: 0px solid transparent;
 }
