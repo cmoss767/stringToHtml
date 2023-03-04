@@ -67,3 +67,20 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+.card {
+  padding: 2em;
+  box-shadow: 0 8px 40px -12px black;
+  width: 600px;
+  height: 400px;
+}
+.actionContainer {
+  padding: 1em;
+  box-shadow: 0 8px 40px -12px black;
+  height: 50px;
+}
+.textContainer {
+  padding: 1em;
+
+  height: 275px;
+  box-shadow: 0 8px 40px -12px black;
+}
