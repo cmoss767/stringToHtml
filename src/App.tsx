@@ -1,8 +1,19 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import "./App.css"
 import ActionBar from "./components/ActionBar"
 
 function App() {
+  const [text, setText] = useState<string | null>()
+  const [html, setHtml] = useState<string | null>()
+  useEffect(() => {
+    let string = ""
+    if (text) {
+      string = "<p>" + text + "</p>"
+    }
+
+    setHtml(string)
+  }, [text])
+
   return (
     <div className="App">
       <div className="centerText">
@@ -15,7 +26,11 @@ function App() {
           </div>
           <ActionBar />
           <div>
-            <div className="textContainer" contentEditable="true"></div>
+            <div
+              className="textContainer"
+              contentEditable="true"
+              onInput={(e) => setText(e.currentTarget.textContent)}
+            ></div>
           </div>
         </div>
         <div className="divider" />
@@ -24,6 +39,7 @@ function App() {
         <div className="card">
           <div className="centerText">
             <h1>HTML Code</h1>
+            <div>{html}</div>
           </div>
         </div>
       </div>
