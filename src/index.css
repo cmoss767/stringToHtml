@@ -26,14 +26,13 @@ a:hover {
 body {
   margin: 0;
   display: flex;
-  place-items: center;
   min-width: 320px;
   min-height: 100vh;
 }
 
 h1 {
   font-size: 3.2em;
-  line-height: 1.1;
+  margin: 0px 0px 10px 0px;
 }
 
 button {
@@ -50,10 +49,6 @@ button {
 button:hover {
   border-color: #646cff;
 }
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}
 
 @media (prefers-color-scheme: light) {
   :root {
@@ -68,10 +63,10 @@ button:focus-visible {
   }
 }
 .card {
-  padding: 2em;
+  padding: 1em 2em;
   box-shadow: 0 8px 40px -12px black;
   width: 600px;
-  height: 400px;
+  height: 525px;
 }
 .actionContainer {
   padding: 1em;
@@ -83,4 +78,22 @@ button:focus-visible {
 
   height: 275px;
   box-shadow: 0 8px 40px -12px black;
+}
+[contenteditable]:focus {
+  outline: 0px solid transparent;
+}
+[contenteditable="true"]:empty:not(:focus):before {
+  content: "start typing...";
+  color: white;
+  font-style: italic;
+}
+.buttonContainer {
+  place-items: left;
+  display: flex;
+}
+.centerText {
+  text-align: center;
+}
+.divider {
+  width: 5px;
 }

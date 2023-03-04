@@ -5,8 +5,10 @@ import ActionBar from "./components/ActionBar"
 function App() {
   return (
     <div className="App">
-      <h1>Rich Text Editor</h1>
       <div className="card">
+        <div className="centerText">
+          <h1>Rich Text Editor</h1>
+        </div>
         <ActionBar />
         <div className="textContainer" contentEditable="true"></div>
       </div>
