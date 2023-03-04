@@ -104,3 +104,15 @@ button:hover {
 .flexBox {
   display: flex;
 }
+
+.upperCard {
+  background-color: white;
+}
+.seperate {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.downloadButton {
+  margin-bottom: 10px;
+}

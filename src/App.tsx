@@ -3,7 +3,7 @@ import "./App.css"
 import ActionBar from "./components/ActionBar"
 
 function App() {
-  const [html, setHtml] = useState<any>()
+  const [html, setHtml] = useState<string[] | undefined>()
 
   const handleInput = (outerHTML: any) => {
     let string = outerHTML
@@ -27,6 +27,17 @@ function App() {
     }
 
     setHtml(result)
+  }
+  const handleDownload = () => {
+    if (html) {
+      const fileData = html
+      const blob = new Blob(fileData)
+      const url = URL.createObjectURL(blob)
+      const link = document.createElement("a")
+      link.download = "test.html"
+      link.href = url
+      link.click()
+    }
   }
 
   return (
@@ -53,12 +64,21 @@ function App() {
         <div className="divider" />
         <div className="divider" />
         <div className="divider" />
-        <div className="card">
+        <div className="card seperate">
           <div className="centerText">
             <h1>HTML Code</h1>
             {html?.map((el: string) => {
               return <div>{el}</div>
             })}
+          </div>
+
+          <div className="centerText downloadButton">
+            <button
+              disabled={html == null || (html.length == 1 && html[0] == "")}
+              onClick={handleDownload}
+            >
+              Download HTML
+            </button>
           </div>
         </div>
       </div>
