@@ -3,23 +3,31 @@ import "./App.css"
 import ActionBar from "./components/ActionBar"
 
 function App() {
-  const [text, setText] = useState<any>()
   const [html, setHtml] = useState<any>()
-  useEffect(() => {}, [text])
+
   const handleInput = (outerHTML: any) => {
     let string = outerHTML
       .replace(/(<div)/gim, "<p")
       .replace(/<\/div>/gim, "</p>")
+
     let c = $.parseHTML(string)
+    console.log(c)
     $(c).removeClass("textContainer")
     $(c).removeAttr("contenteditable class")
-    const result: string[] = []
-    c.forEach((el: Node) => {
-      const element = el as HTMLElement
-      result.push(element.outerHTML)
-    })
+    $("p")
+      .filter(() => {
+        return $(c).text().trim().length == 0
+      })
+      .remove()
 
-    console.log(c)
+    const result: string[] = []
+    for (let i = 0; i < c.length; i++) {
+      if (c.length > 1 && i == c.length - 1) break
+      const element = c[i] as HTMLElement
+      const string = element.outerHTML
+      result.push(string)
+    }
+
     setHtml(result)
   }
 
@@ -39,8 +47,7 @@ function App() {
               className="textContainer"
               contentEditable="true"
               onInput={(e) => {
-                setText(e.currentTarget)
-
+                console.log(e.currentTarget.outerHTML)
                 handleInput(e.currentTarget.outerHTML)
               }}
             ></div>
