@@ -11,21 +11,19 @@ function App() {
       .replace(/<\/div>/gim, "</p>")
 
     let c = $.parseHTML(string)
-    console.log(c)
+
     $(c).removeClass("textContainer")
     $(c).removeAttr("contenteditable class")
-    $("p")
-      .filter(() => {
-        return $(c).text().trim().length == 0
-      })
-      .remove()
 
     const result: string[] = []
     for (let i = 0; i < c.length; i++) {
       if (c.length > 1 && i == c.length - 1) break
       const element = c[i] as HTMLElement
       const string = element.outerHTML
-      result.push(string)
+      const res = string
+        .replace(/(<p><br><\/p>)/gim, "<br>")
+        .replace(/(<p><\/p>)/gim, "")
+      result.push(res)
     }
 
     setHtml(result)
@@ -47,7 +45,6 @@ function App() {
               className="textContainer"
               contentEditable="true"
               onInput={(e) => {
-                console.log(e.currentTarget.outerHTML)
                 handleInput(e.currentTarget.outerHTML)
               }}
             ></div>
