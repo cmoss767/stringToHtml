@@ -9,6 +9,10 @@ function App() {
     let string = outerHTML
       .replace(/(<div)/gim, "<p")
       .replace(/<\/div>/gim, "</p>")
+      .replace(/(<b>)/gim, "<strong>")
+      .replace(/<\/b>/gim, "</strong>")
+      .replace(/(<i)/gim, "<em")
+      .replace(/<\/i>/gim, "</em>")
 
     let c = $.parseHTML(string)
 
@@ -18,11 +22,18 @@ function App() {
     const result: string[] = []
     for (let i = 0; i < c.length; i++) {
       if (c.length > 1 && i == c.length - 1) break
+      let res = ""
       const element = c[i] as HTMLElement
       const string = element.outerHTML
-      const res = string
-        .replace(/(<p><br><\/p>)/gim, "<br>")
-        .replace(/(<p><\/p>)/gim, "")
+      const match1 = /<p>/.test(string)
+      const match2 = /<\/p>/.test(string)
+      const match3 = /<br>/.test(string)
+      if (match1 && match2 && match3) {
+        res = "<br>"
+      } else {
+        res = string.replace(/(<p><\/p>)/gim, "")
+      }
+
       result.push(res)
     }
 
