@@ -76,7 +76,7 @@ function App() {
         <div className="divider" />
         <div className="divider" />
         <div className="card seperate">
-          <div className="centerText">
+          <div className="centerText overFlow">
             <h1>HTML Code</h1>
             {html?.map((el: string) => {
               return <div>{el}</div>

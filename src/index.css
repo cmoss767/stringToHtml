@@ -46,6 +46,10 @@ button {
   cursor: pointer;
   transition: border-color 0.25s;
 }
+button:focus,
+button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}
 button:hover {
   border-color: #646cff;
 }
@@ -115,4 +119,14 @@ button:hover {
 }
 .downloadButton {
   margin-bottom: 10px;
+  margin-top: 10px;
+}
+.overFlow {
+  overflow-y: auto;
+}
+.selectedButton {
+  background-color: #646cff;
+}
+.selectedButton:hover {
+  border-color: #f9f9f9;
 }
