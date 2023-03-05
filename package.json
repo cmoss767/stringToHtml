@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "https://cmoss767.github.io/richTextEditor",
+  "homepage": ".",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
