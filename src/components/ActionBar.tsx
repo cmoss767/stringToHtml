@@ -23,8 +23,12 @@ const ActionBar = () => {
     <div className="actionContainer">
       <div className="buttonContainer">
         <button
+          type="button"
           className={selected.bold ? "selectedButton" : ""}
           key="bold"
+          aria-pressed={selected.bold}
+          aria-label="Bold"
+          title="Bold (Ctrl+B)"
           onMouseDown={(evt) => {
             setSelected({ ...selected, bold: !selected.bold })
             evt.preventDefault()
@@ -35,8 +39,12 @@ const ActionBar = () => {
         </button>
         <div className="divider" />
         <button
+          type="button"
           className={selected.italic ? "selectedButton" : ""}
           key="italic"
+          aria-pressed={selected.italic}
+          aria-label="Italic"
+          title="Italic (Ctrl+I)"
           onMouseDown={(evt) => {
             setSelected({ ...selected, italic: !selected.italic })
             evt.preventDefault()
@@ -47,8 +55,12 @@ const ActionBar = () => {
         </button>
         <div className="divider" />
         <button
+          type="button"
           className={selected.underline ? "selectedButton" : ""}
           key="underline"
+          aria-pressed={selected.underline}
+          aria-label="Underline"
+          title="Underline (Ctrl+U)"
           onMouseDown={(evt) => {
             setSelected({ ...selected, underline: !selected.underline })
             evt.preventDefault()
@@ -59,8 +71,12 @@ const ActionBar = () => {
         </button>
         <div className="divider" />
         <button
+          type="button"
           className={selected.h1 ? "selectedButton" : ""}
           key="h1"
+          aria-pressed={selected.h1}
+          aria-label="Heading 1"
+          title="Heading 1"
           onMouseDown={(evt) => {
             setSelected({ ...selected, h1: !selected.h1, h2: false, h3: false })
             evt.preventDefault()
@@ -71,8 +87,12 @@ const ActionBar = () => {
         </button>
         <div className="divider" />
         <button
+          type="button"
           className={selected.h2 ? "selectedButton" : ""}
           key="h2"
+          aria-pressed={selected.h2}
+          aria-label="Heading 2"
+          title="Heading 2"
           onMouseDown={(evt) => {
             setSelected({ ...selected, h2: !selected.h2, h1: false, h3: false })
             evt.preventDefault()
@@ -83,8 +103,12 @@ const ActionBar = () => {
         </button>
         <div className="divider" />
         <button
+          type="button"
           className={selected.h3 ? "selectedButton" : ""}
           key="h3"
+          aria-pressed={selected.h3}
+          aria-label="Heading 3"
+          title="Heading 3"
           onMouseDown={(evt) => {
             setSelected({ ...selected, h3: !selected.h3, h1: false, h2: false })
             evt.preventDefault()
