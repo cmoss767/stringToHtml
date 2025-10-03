@@ -1,11 +1,13 @@
-import { useState, useEffect } from "react"
+import { useState } from "react"
+import DOMPurify from "dompurify"
 import "./App.css"
 import ActionBar from "./components/ActionBar"
 
 function App() {
   const [html, setHtml] = useState<string[] | undefined>()
 
-  const handleInput = (outerHTML: any) => {
+  const handleInput = (outerHTML: string) => {
+    // Normalize HTML structure
     let string = outerHTML
       .replace(/(<div)/gim, "<p")
       .replace(/<\/div>/gim, "</p>")
@@ -14,24 +16,41 @@ function App() {
       .replace(/(<i)/gim, "<em")
       .replace(/<\/i>/gim, "</em>")
 
-    let c = $.parseHTML(string)
+    // Sanitize the HTML
+    const sanitized = DOMPurify.sanitize(string, {
+      ALLOWED_TAGS: ['p', 'strong', 'em', 'u', 'h1', 'h2', 'h3', 'br'],
+      ALLOWED_ATTR: []
+    })
 
-    $(c).removeClass("textContainer")
-    $(c).removeAttr("contenteditable class")
+    // Parse with native DOM APIs
+    const parser = new DOMParser()
+    const doc = parser.parseFromString(sanitized, 'text/html')
+    const elements = Array.from(doc.body.children)
+
+    // Remove unwanted attributes and classes
+    elements.forEach(el => {
+      el.removeAttribute('contenteditable')
+      el.removeAttribute('class')
+      if (el.classList.contains('textContainer')) {
+        el.classList.remove('textContainer')
+      }
+    })
 
     const result: string[] = []
-    for (let i = 0; i < c.length; i++) {
-      if (c.length > 1 && i == c.length - 1) break
+    for (let i = 0; i < elements.length; i++) {
+      if (elements.length > 1 && i === elements.length - 1) break
+      
+      const element = elements[i] as HTMLElement
+      const elementHTML = element.outerHTML
+      const hasP = /<p>/.test(elementHTML)
+      const hasClosingP = /<\/p>/.test(elementHTML)
+      const hasBr = /<br>/.test(elementHTML)
+      
       let res = ""
-      const element = c[i] as HTMLElement
-      const string = element.outerHTML
-      const match1 = /<p>/.test(string)
-      const match2 = /<\/p>/.test(string)
-      const match3 = /<br>/.test(string)
-      if (match1 && match2 && match3) {
+      if (hasP && hasClosingP && hasBr) {
         res = "<br>"
       } else {
-        res = string.replace(/(<p><\/p>)/gim, "")
+        res = elementHTML.replace(/(<p><\/p>)/gim, "")
       }
 
       result.push(res)
@@ -40,14 +59,27 @@ function App() {
     setHtml(result)
   }
   const handleDownload = () => {
-    if (html) {
-      const fileData = html
-      const blob = new Blob(fileData)
+    if (html && html.length > 0 && !(html.length === 1 && html[0] === "")) {
+      const htmlContent = html.join('\n')
+      const fullHTML = `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exported HTML</title>
+</head>
+<body>
+${htmlContent}
+</body>
+</html>`
+      
+      const blob = new Blob([fullHTML], { type: 'text/html' })
       const url = URL.createObjectURL(blob)
       const link = document.createElement("a")
-      link.download = "test.html"
+      link.download = `export-${new Date().toISOString().split('T')[0]}.html`
       link.href = url
       link.click()
+      URL.revokeObjectURL(url)
     }
   }
 
@@ -78,14 +110,14 @@ function App() {
         <div className="card seperate">
           <div className="centerText overFlow">
             <h1>HTML Code</h1>
-            {html?.map((el: string) => {
-              return <div>{el}</div>
+            {html?.map((el: string, index: number) => {
+              return <div key={index}>{el}</div>
             })}
           </div>
 
           <div className="centerText downloadButton">
             <button
-              disabled={html == null || (html.length == 1 && html[0] == "")}
+              disabled={html == null || (html.length === 1 && html[0] === "")}
               onClick={handleDownload}
             >
               Download HTML
